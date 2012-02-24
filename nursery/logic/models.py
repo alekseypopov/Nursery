@@ -4,6 +4,21 @@ from nursery.settings import pw_salt, request_salt
 import datetime
 import md5
 
+class UserProfile(models.Model):
+    '''
+        User model has a "username". But we don't need username, but email address
+        because username is required field, we'll fill-in username by email.
+        email is unique, and it satisfies "unique" and "required" condition for username
+    '''
+    user = models.ForeignKey(User)
+    password = models.CharField(max_length=128)
+    phoneNumber = models.CharField(max_length=24)
+    #NurseryID = models.ForeignKey(Nursery)
+    # dateCreated is required for UserProfile, but User models supports date_joined field already. we'll use it as "dateCreated"
+    dateModified = models.DateTimeField() 
+    # active is required, but User models already support is_active field, and we'll use it
+    #secretKey = models.CharField(max_length=64)
+   
 class Nursery(models.Model):
     name = models.CharField(max_length=128)
     country = models.CharField(max_length=64)
@@ -15,6 +30,7 @@ class Nursery(models.Model):
     dateCreated = models.DateTimeField()
     dateModified = models.DateTimeField()
     isActive = models.BooleanField()
+    adminUser = models.ForeignKey(UserProfile)
     #payment = models.ForeignKey(Payment)
     
 class Greenhouse(models.Model):
