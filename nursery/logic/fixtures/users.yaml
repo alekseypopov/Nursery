@@ -1,0 +1,45 @@
+- fields:
+    date_joined: '2012-02-21 10:42:19.118100'
+    email: dave.williams36@gmail.com
+    first_name: 'david'
+    last_name: 'williams'
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: false
+    last_login: 2012-02-22 16:06:19.118100
+    password: sha1$aaca0$9aa0b95f65d1655a4ef88f519501fd1e16d62004
+    user_permissions: []
+    username: 'dave.williams36@gmail.com'
+  model: auth.user
+  pk: 1
+- fields:
+    date_joined: 2012-02-23 12:16:13.178100
+    email: baljit.singh.lally@gmail.com
+    first_name: 'baljit'
+    last_name: 'singh'
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: false
+    last_login: 2012-02-23 13:06:19.118100
+    password: sha1$aaca0$9aa0b95f65d1655a4ef88f519501fd1e16d62004
+    user_permissions: []
+    username: 'baljit.singh.lally@gmail.com'
+  model: auth.user
+  pk: 2
+- fields:
+    date_joined: 2012-02-24 16:06:19.118100
+    email: aleksey.popov1983@gmail.com
+    first_name: 'aleksey'
+    last_name: 'aleksey'
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: false
+    last_login: 2012-02-24 16:06:19.118100
+    password: sha1$aaca0$9aa0b95f65d1655a4ef88f519501fd1e16d62004
+    user_permissions: []
+    username: 'aleksey.popov1983@gmail.com'
+  model: auth.user
+  pk: 3
