@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
-from nursery.logic.views import home, test
+from nursery.logic.views import home
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
