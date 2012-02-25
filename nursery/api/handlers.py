@@ -11,13 +11,13 @@ class CreateNursery_Handler(BaseHandler):
     '''
     
     model = Nursery
-    allowed_methods = ('POST')
+    allowed_methods = ('POST',)
     
     def create(self, request):
         '''
         Creats a new nursery
         '''
-        
+        return "Success"
         #first authenticate user
         if request.POST == 'POST':
             request_data = json.loads(request.raw_post_data)
