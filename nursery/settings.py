@@ -147,5 +147,5 @@ LOGGING = {
     }
 }
 
-pw_salt = ""
-request_salt = ""
+pw_salt = "1234567890"
+request_salt = "abcdefghij"
