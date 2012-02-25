@@ -83,10 +83,10 @@ def Authenticate(user_id, request_hash):
     except:
         raise AuthenticationError("unregistered user")
     
-    password_hash = md5(pw_salt + user.password)
+    password_hash = md5.new(pw_salt + user.password).hexdigest()
     now = datetime.datetime.now()
     strTime = now.strftime("%Y-%m-%d %H:%M:%S")
-    server_request_hash = md5(request_salt + strTime + password_hash)
+    server_request_hash = md5.new(request_salt + strTime + password_hash).hexdigest()
     if server_request_hash == request_hash:
         return True
     return False
