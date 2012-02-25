@@ -1,5 +1,5 @@
 from piston.handler import BaseHandler
-from nursery.logic.models import Nursery
+from nursery.logic.models import Nursery, UserProfile
 import json
 import datetime
 from nursery.logic.models import Authenticate
@@ -36,8 +36,9 @@ class CreateNursery_Handler(BaseHandler):
                 zipcode = params['zipcode']
                 PhoneNumber = params['phonenumber']
                 dateCreated = datetime.datetime.now()
-                dateModified = None
+                dateModified = dateCreated
                 isActive = False
+                adminUser = UserProfile.objects.get(user__id__exact = user_id)
                 
                 newNursery = Nursery(name = name,
                                      country = country,
@@ -48,7 +49,8 @@ class CreateNursery_Handler(BaseHandler):
                                      PhoneNumber = PhoneNumber,
                                      dateCreated = dateCreated,
                                      dateModified = dateModified,
-                                     isActive = isActive
+                                     isActive = isActive,
+                                     adminUser = adminUser
                                      )
                 strTime = dateCreated.strftime("%Y-%m-%d %H:%M:%S")
                 return json.dumps({'result': {'id': newNursery.id, 'dateCreated': strTime}})

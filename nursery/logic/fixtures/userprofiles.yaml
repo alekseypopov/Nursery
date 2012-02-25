@@ -1,0 +1,21 @@
+- fields:
+    user: 1
+    password: 'david'
+    phoneNumber: '111-111-1111'
+    dateModified: 2012-02-25 5:06:19.118100
+  model: logic.UserProfile
+  pk: 1
+- fields:
+    user: 2
+    password: 'baljit'
+    phoneNumber: '222-222-2222'
+    dateModified: 2012-02-25 5:06:19.118100
+  model: logic.UserProfile
+  pk: 2
+- fields:
+    user: 3
+    password: 'aleksey'
+    phoneNumber: '333-333-3333'
+    dateModified: 2012-02-25 5:06:19.118100
+  model: logic.UserProfile
+  pk: 3

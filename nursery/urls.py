@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from nursery.logic.views import home
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -14,6 +15,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    
+    url(r'^$', home),
     url(r'^api/', include('nursery.api.urls')),
 )
