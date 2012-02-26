@@ -108,7 +108,7 @@ class CreateGreenhouse_Handler(BaseHandler):
                                                        desc=desc,
                                                        latitude=latitude,
                                                        longitude=longitude,
-                                                       nursery__id_exact=nursery_id,
+                                                       nursery__id=nursery_id,
                                                        isDeleted = False
                                                        )
                 return HttpResponse("abc")
