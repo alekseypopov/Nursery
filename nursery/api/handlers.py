@@ -85,4 +85,19 @@ class CreateGreenhouse_Handler(BaseHandler):
     allowed_methods = ('POST',)
     
     def create(self, request, nursery_id):
-        return HttpResponse(nursery_id)
+        '''
+        Creats a new nursery
+        '''
+        #first authenticate user
+        if request.method == 'POST':
+            request_data = json.loads(request.raw_post_data)
+            user_id = request_data['user_id']
+            request_hash = request_data['request_hash']
+
+            #return HttpResponse("True")
+            #first of all, authenticate user
+            if Authenticate(user_id, request_hash) == True:
+                return HttpResponse(nursery_id)
+            
+            r_value = json.dumps({'result': 'Auth Failed'})
+            return HttpResponse(r_value)
