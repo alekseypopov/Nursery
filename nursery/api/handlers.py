@@ -98,6 +98,13 @@ class CreateGreenhouse_Handler(BaseHandler):
             #return HttpResponse("True")
             #first of all, authenticate user
             if Authenticate(user_id, request_hash) == True:
+                nursery = None        
+                try:
+                    nursery = Nursery.objects.get(id=nursery_id)
+                except:
+                    r_value = json.dumps({'result': 'Nursery ID invalid'})
+                    return HttpResponse(r_value)
+                
                 params = request_data['params']
                 name = params['name']
                 desc = params['desc']
@@ -111,20 +118,12 @@ class CreateGreenhouse_Handler(BaseHandler):
                                                        nursery__id=nursery_id,
                                                        isDeleted = False
                                                        )
-                return HttpResponse("abc")
                 if len(greenhouse) != 0:
-                        r_value = json.dumps({'result': 'Nursery Already Exist'})
-                        return HttpResponse(r_value)
+                    r_value = json.dumps({'result': 'Nursery Already Exist'})
+                    return HttpResponse(r_value)
             
                 dateCreated = datetime.datetime.now()
                 dateModified = dateCreated
-                        
-                nursery = None        
-                try:
-                    nursery = Nursery.objects.get(id=nursery_id)
-                except:
-                    r_value = json.dumps({'result': 'Nursery ID invalid'})
-                    return HttpResponse(r_value)
                 
                 new_gs = Greenhouse(name=name, desc=desc, latitude=latitude, longitude=longitude, 
                                     dateCreated=dateCreated, dateModified=dateModified, nursery=nursery, isDeleted=False)
