@@ -40,6 +40,8 @@ class Greenhouse(models.Model):
     longitude = models.CharField(max_length=64)
     dateCreated = models.DateTimeField()
     dateModified = models.DateTimeField()
+    nursery = models.ForeignKey(Nursery)
+    isDeleted = models.BooleanField()
 
 class ScientificName(models.Model):
     name = models.CharField(max_length = 256)

@@ -27,7 +27,7 @@ def test_create_nursery(request):
     return HttpResponse(response)
 
 def test_create_greenhouse(request):
-    host_url = "http://173.255.192.81/api/nursery/3/addGreenhouse/"
+    host_url = "http://173.255.192.81/api/nursery/1/addGreenhouse/"
     user_id = 3 #aleksey's id
     password = 'aleksey'
     password_hash = hashlib.md5(pw_salt + password).hexdigest()
@@ -36,7 +36,7 @@ def test_create_greenhouse(request):
     strTime = '2012-02-91 12:23:42'
     request_hash = hashlib.md5(request_salt + strTime + password_hash).hexdigest()
     request_data = {'user_id':user_id, 'request_hash':request_hash,
-                    'params': {'name': 'nursery1', 'country':'USA', 'state':'CAL', 'city':'CAL', 'address':'address1', 'zipcode':'zipcode1', 'phonenumber':'444-444-4444'} }
+                    'params': {'name': 'greenhouse1', 'desc':'This is wonderful greenhouse. many flowers and plants', 'latitude':'30:28:39', 'longitude':'28:48:49'} }
     data = json.dumps(request_data)
     req = urllib2.Request(host_url, data, {"Content-type": "application/json"})
     response_stream = urllib2.urlopen(req)

@@ -3,6 +3,7 @@ from nursery.logic.models import Nursery, UserProfile
 import json
 import datetime
 from nursery.logic.models import Authenticate
+from nursery.logic.models import Greenhouse
 from django.http import HttpResponse
 
 class CreateNursery_Handler(BaseHandler):
@@ -97,7 +98,32 @@ class CreateGreenhouse_Handler(BaseHandler):
             #return HttpResponse("True")
             #first of all, authenticate user
             if Authenticate(user_id, request_hash) == True:
-                return HttpResponse(nursery_id)
-            
+                params = request_data['params']
+                name = params['name']
+                desc = params['desc']
+                latitude = params['latitude']
+                longitude = params['longitude']
+                
+                greenhouse = Greenhouse.objects.filter(name=name,
+                                                       desc=desc,
+                                                       latitude=latitude,
+                                                       longitude=longitude,
+                                                       nursery__id_exact=nursery_id,
+                                                       isDeleted = False
+                                                       )
+                if len(greenhouse) != 0:
+                    r_value = json.dumps({'result': 'Nursery Already Exist'})
+                    return HttpResponse(r_value)
+                
+                dateCreated = datetime.datetime.now()
+                dateModified = dateCreated
+                                
+                nursery = Nursery.objects.get(id=nursery_id)
+                new_gs = Greenhouse(name=name, desc=desc, latitude=latitude, longitude=longitude, 
+                                    dateCreated=dateCreated, dateModified=dateModified, nursery=nursery, isDeleted=False)
+                new_gs.save()
+                strTime = dateCreated.strftime("%Y-%m-%d %H:%M:%S")
+                r_value = json.dumps({'result': {'id': new_gs.id, 'dateCreated': strTime}})
+                return HttpResponse(r_value)
             r_value = json.dumps({'result': 'Auth Failed'})
             return HttpResponse(r_value)
