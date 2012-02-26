@@ -3,6 +3,7 @@ from nursery.logic.models import Nursery, UserProfile
 import json
 import datetime
 from nursery.logic.models import Authenticate
+from django.http import HttpResponse
 
 class CreateNursery_Handler(BaseHandler):
     '''
@@ -18,11 +19,12 @@ class CreateNursery_Handler(BaseHandler):
         Creats a new nursery
         '''
         #first authenticate user
-        if request.POST == 'POST':
+        if request.method == 'POST':
             request_data = json.loads(request.raw_post_data)
             user_id = request_data['user_id']
             request_hash = request_data['request_hash']
-            
+
+            #return HttpResponse("True")
             #first of all, authenticate user
             if Authenticate(user_id, request_hash) == True:
                 #this means proper user
@@ -39,20 +41,38 @@ class CreateNursery_Handler(BaseHandler):
                 isActive = False
                 adminUser = UserProfile.objects.get(user__id__exact = user_id)
                 
+                newNursery = None
+                exist = None
+                #return HttpResponse("True")
+                exist = Nursery.objects.filter(name = name,
+                                 country = country,
+                                 state = state,
+                                 city = city,
+                                 address = address,
+                                 zipcode = zipcode,
+                                 phoneNumber = PhoneNumber)
+                
+                if len(exist) != 0:
+                    r_value = json.dumps({'result': 'Nursery Already Exist'})
+                    return HttpResponse(r_value)  
+               
                 newNursery = Nursery(name = name,
-                                     country = country,
-                                     state = state,
-                                     city = city,
-                                     address = address,
-                                     zipcode = zipcode,
-                                     PhoneNumber = PhoneNumber,
-                                     dateCreated = dateCreated,
-                                     dateModified = dateModified,
-                                     isActive = isActive,
-                                     adminUser = adminUser
-                                     )
+                                 country = country,
+                                 state = state,
+                                 city = city,
+                                 address = address,
+                                 zipcode = zipcode,
+                                 phoneNumber = PhoneNumber,
+                                 dateCreated = dateCreated,
+                                 dateModified = dateModified,
+                                 isActive = isActive,
+                                 adminUser = adminUser
+                                 )
+                newNursery.save()
                 strTime = dateCreated.strftime("%Y-%m-%d %H:%M:%S")
-                return json.dumps({'result': {'id': newNursery.id, 'dateCreated': strTime}})
+                r_value = json.dumps({'result': {'id': newNursery.id, 'dateCreated': strTime}})
+                return HttpResponse(r_value)
             
-            return json.dumps({'result': 'Auth Failed'})
+            r_value = json.dumps({'result': 'Auth Failed'})
+            return HttpResponse(r_value)
                 
