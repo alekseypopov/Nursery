@@ -118,7 +118,12 @@ class CreateGreenhouse_Handler(BaseHandler):
                 dateCreated = datetime.datetime.now()
                 dateModified = dateCreated
                                 
-                nursery = Nursery.objects.get(id=nursery_id)
+                try:
+                    nursery = Nursery.objects.get(id=nursery_id)
+                except:
+                    r_value = json.dumps({'result': 'Nursery ID invalid'})
+                    return HttpResponse(r_value)
+                
                 new_gs = Greenhouse(name=name, desc=desc, latitude=latitude, longitude=longitude, 
                                     dateCreated=dateCreated, dateModified=dateModified, nursery=nursery, isDeleted=False)
                 new_gs.save()
