@@ -117,7 +117,8 @@ class CreateGreenhouse_Handler(BaseHandler):
                 
                 dateCreated = datetime.datetime.now()
                 dateModified = dateCreated
-                                
+                        
+                nursery = None        
                 try:
                     nursery = Nursery.objects.get(id=nursery_id)
                 except:
