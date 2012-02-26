@@ -78,14 +78,16 @@ def Authenticate(user_id, request_hash):
         else:
             Fraud.
     '''
+    user = None
     try:
         user = UserProfile.objects.get(user__id__exact = user_id)
     except:
-        raise AuthenticationError("unregistered user")
-    
+        #raise AuthenticationError("unregistered user")
+        return False
     password_hash = hashlib.md5(pw_salt + user.password).hexdigest()
     now = datetime.datetime.now()
-    strTime = now.strftime("%Y-%m-%d %H:%M:%S")
+    #strTime = now.strftime("%Y-%m-%d %H:%M:%S")
+    strTime = '2012-02-91 12:23:42'
     server_request_hash = hashlib.md5(request_salt + strTime + password_hash).hexdigest()
     if server_request_hash == request_hash:
         return True
