@@ -27,7 +27,7 @@ def test_create_nursery(request):
     return HttpResponse(response)
 
 def test_create_greenhouse(request):
-    host_url = "http://173.255.192.81/api/nursery/1/addGreenhouse/"
+    host_url = "http://173.255.192.81/api/nursery/2/addGreenhouse/"
     user_id = 3 #aleksey's id
     password = 'aleksey'
     password_hash = hashlib.md5(pw_salt + password).hexdigest()

@@ -104,33 +104,33 @@ class CreateGreenhouse_Handler(BaseHandler):
                 latitude = params['latitude']
                 longitude = params['longitude']
                 
-                try:
-                    greenhouse = Greenhouse.objects.filter(name=name,
-                                                           desc=desc,
-                                                           latitude=latitude,
-                                                           longitude=longitude,
-                                                           nursery__id_exact=nursery_id,
-                                                           isDeleted = False
-                                                           )
-                    if len(greenhouse) != 0:
+                greenhouse = Greenhouse.objects.filter(name=name,
+                                                       desc=desc,
+                                                       latitude=latitude,
+                                                       longitude=longitude,
+                                                       nursery__id_exact=nursery_id,
+                                                       isDeleted = False
+                                                       )
+                return HttpResponse("abc")
+                if len(greenhouse) != 0:
                         r_value = json.dumps({'result': 'Nursery Already Exist'})
                         return HttpResponse(r_value)
+            
+                dateCreated = datetime.datetime.now()
+                dateModified = dateCreated
+                        
+                nursery = None        
+                try:
+                    nursery = Nursery.objects.get(id=nursery_id)
                 except:
-                    dateCreated = datetime.datetime.now()
-                    dateModified = dateCreated
-                            
-                    nursery = None        
-                    try:
-                        nursery = Nursery.objects.get(id=nursery_id)
-                    except:
-                        r_value = json.dumps({'result': 'Nursery ID invalid'})
-                        return HttpResponse(r_value)
-                    
-                    new_gs = Greenhouse(name=name, desc=desc, latitude=latitude, longitude=longitude, 
-                                        dateCreated=dateCreated, dateModified=dateModified, nursery=nursery, isDeleted=False)
-                    new_gs.save()
-                    strTime = dateCreated.strftime("%Y-%m-%d %H:%M:%S")
-                    r_value = json.dumps({'result': {'id': new_gs.id, 'dateCreated': strTime}})
+                    r_value = json.dumps({'result': 'Nursery ID invalid'})
                     return HttpResponse(r_value)
+                
+                new_gs = Greenhouse(name=name, desc=desc, latitude=latitude, longitude=longitude, 
+                                    dateCreated=dateCreated, dateModified=dateModified, nursery=nursery, isDeleted=False)
+                new_gs.save()
+                strTime = dateCreated.strftime("%Y-%m-%d %H:%M:%S")
+                r_value = json.dumps({'result': {'id': new_gs.id, 'dateCreated': strTime}})
+                return HttpResponse(r_value)
             r_value = json.dumps({'result': 'Auth Failed'})
             return HttpResponse(r_value)
