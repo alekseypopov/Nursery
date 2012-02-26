@@ -8,7 +8,7 @@ from django.http import HttpResponse
 class CreateNursery_Handler(BaseHandler):
     '''
     This class is for creating new nursery.
-    URI: POST /api/nursery
+    URI: POST /api/nursery/
     '''
     
     model = Nursery
@@ -76,3 +76,13 @@ class CreateNursery_Handler(BaseHandler):
             r_value = json.dumps({'result': 'Auth Failed'})
             return HttpResponse(r_value)
                 
+class CreateGreenhouse_Handler(BaseHandler):
+    '''
+    This class is for creating new greenhouse.
+    URI: POST /api/nursery/(nursery_id)/addGreenhouse/
+    URI Sample : /api/nursery/3/addGreenhouse/
+    '''
+    allowed_methods = ('POST',)
+    
+    def create(self, request, nursery_id):
+        return HttpResponse(nursery_id)
