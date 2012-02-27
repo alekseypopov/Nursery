@@ -10,17 +10,22 @@ class UserProfile(models.Model):
         because username is required field, we'll fill-in username by email.
         email is unique, and it satisfies "unique" and "required" condition for username
     '''
-    user = models.ForeignKey(User)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
     password = models.CharField(max_length=128)
+    street = models.CharField(max_length=32)
+    state = models.CharField(max_length=32)
+    city = models.CharField(max_length=32)
+    zipcode = models.CharField(max_length=20)
     phoneNumber = models.CharField(max_length=24)
-    #NurseryID = models.ForeignKey(Nursery)
-    # dateCreated is required for UserProfile, but User models supports date_joined field already. we'll use it as "dateCreated"
+    website = models.URLField(blank=True)
+    business_type = models.CharField(max_length=10)
+    dateCreated = models.DateTimeField()
     dateModified = models.DateTimeField() 
-    # active is required, but User models already support is_active field, and we'll use it
-    #secretKey = models.CharField(max_length=64)
     
 class Nursery(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     country = models.CharField(max_length=64)
     state = models.CharField(max_length=64)
     city = models.CharField(max_length=64)
@@ -30,7 +35,7 @@ class Nursery(models.Model):
     dateCreated = models.DateTimeField()
     dateModified = models.DateTimeField()
     isActive = models.BooleanField()
-    adminUser = models.ForeignKey(UserProfile)
+    adminUser = models.ForeignKey(UserProfile, blank=True, null=True, default=null)
     #payment = models.ForeignKey(Payment)
     
 class Greenhouse(models.Model):
@@ -82,7 +87,7 @@ def Authenticate(user_id, request_hash):
     '''
     user = None
     try:
-        user = UserProfile.objects.get(user__id__exact = user_id)
+        user = UserProfile.objects.get(id__exact = user_id)
     except:
         #raise AuthenticationError("unregistered user")
         return False
@@ -95,4 +100,22 @@ def Authenticate(user_id, request_hash):
         return True
     return False
 
-    
+def Authenticate_ByEmail(email, request_hash):
+    '''
+    Authentication Algorithm:
+        same as above Authenticate function
+    '''
+    user = None
+    try:
+        user = UserProfile.objects.get(email__exact = email)
+    except:
+        #raise AuthenticationError("unregistered user")
+        return False
+    password_hash = hashlib.md5(pw_salt + user.password).hexdigest()
+    now = datetime.datetime.now()
+    #strTime = now.strftime("%Y-%m-%d %H:%M:%S")
+    strTime = '2012-02-91 12:23:42'
+    server_request_hash = hashlib.md5(request_salt + strTime + password_hash).hexdigest()
+    if server_request_hash == request_hash:
+        return True
+    return False
